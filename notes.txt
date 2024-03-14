@@ -1,6 +1,7 @@
 Svelte
     * Svelte is a javascript framework, but instead of using Virtual DOM (Like React, for example) he compiles the code.
     * Because of being an state driven and being compiled he can be much more faster then other frameworks who uses Virtual DOM, compares the Virtual DOM with the original, etc...
+    * He generates real time "classes" to components. Is the way Svelte uses to make the styles for each component only be used in the component itself, and not in the entire app.
 SvelteKit
     * SvelteKit is a framework who can build extremely high-performance apps
     * He is to Svelte what Next.js is for React and Nuxt.js is for Vue
