@@ -1,7 +1,11 @@
 <script>
-	let counter1 = 0;
+	export let counter1;
+	export let maxCounter2 = 10;
+
 	let counter2 = 0;
 	let counter3 = 0;
+
+	console.log($$props, $$restProps);
 
 	const setCounter3 = (x, y) => {
 		counter3 = x + y;
@@ -11,7 +15,9 @@
 	$: textCounter3 = `The value for counter 3 is ${counter3}`; // Counter3 is only updating when counter1 or counter2 changes and the setCounter is above this line
 
 	const increment1 = () => {
-		counter1 += 1;
+		if (counter1 < maxCounter2) {
+			counter1 += 1;
+		}
 	};
 
 	const increment2 = () => {
