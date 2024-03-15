@@ -5,7 +5,7 @@
 	<slot>This is my fallback text</slot>
 </button>
 
-<style>
+<style lang="scss">
 	button {
 		padding: 15px 20px;
 		background-color: cadetblue;
