@@ -1,5 +1,6 @@
 <script>
 	import Counter from './lib/Counter.svelte';
+	import Button from './lib/Button.svelte';
 
 	const counterProps = {
 		counter1: 3,
@@ -7,7 +8,8 @@
 	};
 </script>
 
-<Counter {...counterProps} counterRestProp="string value" />
+<!-- <Counter {...counterProps} counterRestProp="string value" /> -->
+<Button>This is my button</Button>
 
 <style>
 </style>
