@@ -1,13 +1,13 @@
 <script>
 	import Counter from './lib/Counter.svelte';
 
-	const props = {
+	const counterProps = {
 		counter1: 3,
 		maxCounter2: 10
 	};
 </script>
 
-<Counter {...props} restProp="string value" />
+<Counter {...counterProps} counterRestProp="string value" />
 
 <style>
 </style>
