@@ -2,7 +2,9 @@ import sveltePreprocess from 'svelte-preprocess';
 
 const config = {
 	preprocess: sveltePreprocess({
-		scss: {}
+		scss: {
+			prependData: '@use "src/styles/variables.scss";'
+		}
 	})
 };
 
