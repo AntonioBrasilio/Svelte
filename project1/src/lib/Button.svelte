@@ -3,11 +3,14 @@
 	export let shadow = false;
 	export let bgColor = 'inherit';
 	export let textColor = 'inherit';
+	export let isMouseHover = false;
 
 	console.log($$slots);
 </script>
 
 <button
+	on:mouseenter={() => (isMouseHover = true)}
+	on:mouseleave={() => (isMouseHover = false)}
 	style:background-color={bgColor}
 	style:--buttonTextColor={textColor}
 	class:size-lg={size === 'large'}
@@ -19,7 +22,7 @@
 			<slot name="leftContent" />
 		</div>
 	{/if}
-	<slot>This is my fallback text</slot>
+	<slot {isMouseHover}>This is my fallback text</slot>
 </button>
 
 <style lang="scss">

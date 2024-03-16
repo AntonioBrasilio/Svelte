@@ -1,7 +1,9 @@
 <script>
 	import Counter from './lib/Counter.svelte';
 	import Button from './lib/Button.svelte';
-	import ChevronCircleUp from 'svelte-icons/fa/FaChevronCircleUp.svelte';
+	import { FaChevronCircleDown, FaChevronCircleUp } from 'svelte-icons/fa';
+
+	let isMouseHover = false;
 
 	const counterProps = {
 		counter1: 3,
@@ -10,9 +12,13 @@
 </script>
 
 <!-- <Counter {...counterProps} counterRestProp="string value" /> -->
-<Button bgColor="red" textColor="white" size="large" shadow>
+<Button bind:isMouseHover bgColor="red" textColor="white" size="large" shadow>
 	<div class="left-icon" slot="leftContent">
-		<ChevronCircleUp />
+		{#if isMouseHover}
+			<FaChevronCircleUp />
+		{:else}
+			<FaChevronCircleDown />
+		{/if}
 	</div>
 	<span>This is my button</span>
 </Button>
