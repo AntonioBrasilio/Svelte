@@ -1,16 +1,24 @@
 <script>
 	export let size = 'large';
 	export let shadow = false;
+	export let bgColor = 'inherit';
+	export let textColor = 'inherit';
 </script>
 
-<button class:size-lg={size === 'large'} class:size-sm={size === 'small'} class:shadow>
+<button
+	style:background-color={bgColor}
+	style:--buttonTextColor={textColor}
+	class:size-lg={size === 'large'}
+	class:size-sm={size === 'small'}
+	class:shadow
+>
 	<slot>This is my fallback text</slot>
 </button>
 
 <style lang="scss">
 	button {
 		background-color: variables.$color;
-		color: #fff;
+		color: var(--buttonTextColor);
 		font-weight: bold;
 		border: none;
 		border-radius: 5px;

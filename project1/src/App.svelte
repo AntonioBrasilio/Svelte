@@ -9,7 +9,7 @@
 </script>
 
 <!-- <Counter {...counterProps} counterRestProp="string value" /> -->
-<Button size="large" shadow>This is my button</Button>
+<Button bgColor="red" textColor="white" size="large" shadow>This is my button</Button>
 
 <style>
 </style>
