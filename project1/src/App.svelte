@@ -3,8 +3,6 @@
 	import Button from './lib/Button.svelte';
 	import { FaChevronCircleDown, FaChevronCircleUp } from 'svelte-icons/fa';
 
-	let isMouseHover = false;
-
 	const counterProps = {
 		counter1: 3,
 		maxCounter2: 10
@@ -12,8 +10,8 @@
 </script>
 
 <!-- <Counter {...counterProps} counterRestProp="string value" /> -->
-<Button bind:isMouseHover bgColor="red" textColor="white" size="large" shadow>
-	<div class="left-icon" slot="leftContent">
+<Button bgColor="red" textColor="white" size="large" shadow>
+	<div let:isMouseHover class="left-icon" slot="leftContent">
 		{#if isMouseHover}
 			<FaChevronCircleUp />
 		{:else}

@@ -19,10 +19,10 @@
 >
 	{#if $$slots.leftContent}
 		<div class="left-content">
-			<slot name="leftContent" />
+			<slot name="leftContent" {isMouseHover} />
 		</div>
 	{/if}
-	<slot {isMouseHover}>This is my fallback text</slot>
+	<slot>This is my fallback text</slot>
 </button>
 
 <style lang="scss">
