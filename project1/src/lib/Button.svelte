@@ -3,6 +3,8 @@
 	export let shadow = false;
 	export let bgColor = 'inherit';
 	export let textColor = 'inherit';
+
+	console.log($$slots);
 </script>
 
 <button
@@ -12,11 +14,19 @@
 	class:size-sm={size === 'small'}
 	class:shadow
 >
+	{#if $$slots.leftContent}
+		<div class="left-content">
+			<slot name="leftContent" />
+		</div>
+	{/if}
 	<slot>This is my fallback text</slot>
 </button>
 
 <style lang="scss">
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		background-color: variables.$color;
 		color: var(--buttonTextColor);
 		font-weight: bold;
@@ -24,6 +34,9 @@
 		border-radius: 5px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 		cursor: pointer;
+		.left-content {
+			margin-right: 10px;
+		}
 		&:hover {
 			transform: scale(1.05);
 			background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
