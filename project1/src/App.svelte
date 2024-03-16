@@ -10,7 +10,7 @@
 </script>
 
 <!-- <Counter {...counterProps} counterRestProp="string value" /> -->
-<Button bgColor="red" textColor="white" size="large" shadow>
+<Button disabled on:click|once={() => alert(true)} bgColor="red" textColor="white" size="large" shadow>
 	<div let:isMouseHover class="left-icon" slot="leftContent">
 		{#if isMouseHover}
 			<FaChevronCircleUp />

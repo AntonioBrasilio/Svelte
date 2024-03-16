@@ -9,6 +9,8 @@
 </script>
 
 <button
+	{...$$restProps}
+	on:click
 	on:mouseenter={() => (isMouseHover = true)}
 	on:mouseleave={() => (isMouseHover = false)}
 	style:background-color={bgColor}
@@ -39,6 +41,10 @@
 		cursor: pointer;
 		.left-content {
 			margin-right: 10px;
+		}
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 		&:hover {
 			transform: scale(1.05);
