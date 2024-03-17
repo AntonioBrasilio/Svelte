@@ -1,11 +1,22 @@
 <script>
 	import Button from './Button.svelte';
+	import { v4 as uuid } from 'uuid';
 
 	export let todos = [];
 	export let inputValue = '';
 
 	const handleAddToto = () => {
-		console.log(inputValue);
+		if (inputValue) {
+			todos = [
+				...todos,
+				{
+					id: uuid(),
+					title: inputValue,
+					completed: false
+				}
+			];
+			inputValue = '';
+		}
 	};
 </script>
 
