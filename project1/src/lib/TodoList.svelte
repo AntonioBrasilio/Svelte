@@ -8,6 +8,7 @@
 	const dispatch = createEventDispatcher();
 
 	const handleAddToto = () => {
+		if (!inputValue) return;
 		const isNotCancelled = dispatch(
 			'addtodo',
 			{
