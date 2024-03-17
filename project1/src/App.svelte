@@ -1,28 +1,26 @@
 <script>
-	import Counter from './lib/Counter.svelte';
-	import Button from './lib/Button.svelte';
-	import { FaChevronCircleDown, FaChevronCircleUp } from 'svelte-icons/fa';
+	import TodoList from './lib/TodoList.svelte';
+	import { v4 as uuid } from 'uuid';
 
-	const counterProps = {
-		counter1: 3,
-		maxCounter2: 10
-	};
+	const todos = [
+		{
+			id: uuid(),
+			title: 'Todo 1',
+			completed: true
+		},
+		{
+			id: uuid(),
+			title: 'Todo 2',
+			completed: false
+		},
+		{
+			id: uuid(),
+			title: 'Todo 3',
+			completed: false
+		}
+	];
 </script>
 
-<!-- <Counter {...counterProps} counterRestProp="string value" /> -->
-<Button disabled on:click|once={() => alert(true)} bgColor="red" textColor="white" size="large" shadow>
-	<div let:isMouseHover class="left-icon" slot="leftContent">
-		{#if isMouseHover}
-			<FaChevronCircleUp />
-		{:else}
-			<FaChevronCircleDown />
-		{/if}
-	</div>
-	<span>This is my button</span>
-</Button>
+<TodoList {todos} />
 
-<style>
-	.left-icon {
-		width: 50px;
-	}
-</style>
+<style></style>
