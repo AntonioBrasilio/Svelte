@@ -1,20 +1,21 @@
 <script>
 	import Button from './Button.svelte';
-	import { v4 as uuid } from 'uuid';
+	import { createEventDispatcher } from 'svelte';
 
 	export let todos = [];
 	export let inputValue = '';
 
+	const dispatch = createEventDispatcher();
+
 	const handleAddToto = () => {
-		if (inputValue) {
-			todos = [
-				...todos,
-				{
-					id: uuid(),
-					title: inputValue,
-					completed: false
-				}
-			];
+		const isNotCancelled = dispatch(
+			'addtodo',
+			{
+				title: inputValue
+			},
+			{ cancelable: true }
+		);
+		if (isNotCancelled) {
 			inputValue = '';
 		}
 	};

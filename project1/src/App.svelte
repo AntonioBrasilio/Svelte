@@ -2,7 +2,12 @@
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
 
-	const todos = [
+	const handleAddTodo = (e) => {
+		// e.preventDefault();
+		console.log(e);
+	};
+
+	let todos = [
 		{
 			id: uuid(),
 			title: 'Todo 1',
@@ -21,6 +26,6 @@
 	];
 </script>
 
-<TodoList {todos} />
+<TodoList {todos} on:addtodo={handleAddTodo} />
 
 <style></style>
