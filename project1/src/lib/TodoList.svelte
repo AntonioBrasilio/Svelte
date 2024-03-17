@@ -27,6 +27,15 @@
 	const handleToggleTodo = (id, value) => {
 		dispatch('toggletodo', { id, value });
 	};
+
+	export const clearInput = () => {
+		inputValue = '';
+	};
+
+	let input;
+	export const focusInput = () => {
+		input.focus();
+	};
 </script>
 
 <div class="todo-list-wrapper">
@@ -50,6 +59,6 @@
 	</ul>
 </div>
 <form on:submit|preventDefault={handleAddToto} class="add-todo-form">
-	<input bind:value={inputValue} />
+	<input bind:this={input} bind:value={inputValue} />
 	<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
 </form>

@@ -5,15 +5,18 @@
 	import { v4 as uuid } from 'uuid';
 
 	const handleAddTodo = (e) => {
-		// e.preventDefault();
-		todos = [
-			...todos,
-			{
-				id: uuid(),
-				title: e.detail.title,
-				completed: false
-			}
-		];
+		e.preventDefault();
+		setTimeout(() => {
+			todos = [
+				...todos,
+				{
+					id: uuid(),
+					title: e.detail.title,
+					completed: false
+				}
+			];
+			todoList.clearInput();
+		}, 1000);
 	};
 
 	const handleRemoveTodo = (e) => {
@@ -31,6 +34,8 @@
 			return { ...todo };
 		});
 	};
+
+	let todoList;
 
 	let todos = [
 		{
@@ -51,6 +56,6 @@
 	];
 </script>
 
-<TodoList {todos} on:toggletodo={handleToggleTodo} on:removetodo={handleRemoveTodo} on:addtodo={handleAddTodo} />
+<TodoList bind:this={todoList} {todos} on:toggletodo={handleToggleTodo} on:removetodo={handleRemoveTodo} on:addtodo={handleAddTodo} />
 
 <style></style>
