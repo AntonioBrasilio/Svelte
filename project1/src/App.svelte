@@ -16,6 +16,22 @@
 		];
 	};
 
+	const handleRemoveTodo = (e) => {
+		todos = todos.filter((todo) => todo.id !== e.detail.id);
+	};
+
+	const handleToggleTodo = (event) => {
+		todos = todos.map((todo) => {
+			if (todo.id === event.detail.id) {
+				return {
+					...todo,
+					completed: event.detail.value
+				};
+			}
+			return { ...todo };
+		});
+	};
+
 	let todos = [
 		{
 			id: uuid(),
@@ -35,6 +51,6 @@
 	];
 </script>
 
-<TodoList {todos} on:addtodo={handleAddTodo} />
+<TodoList {todos} on:toggletodo={handleToggleTodo} on:removetodo={handleRemoveTodo} on:addtodo={handleAddTodo} />
 
 <style></style>
