@@ -6,17 +6,15 @@
 
 	const handleAddTodo = (e) => {
 		e.preventDefault();
-		setTimeout(() => {
-			todos = [
-				...todos,
-				{
-					id: uuid(),
-					title: e.detail.title,
-					completed: false
-				}
-			];
-			todoList.clearInput();
-		}, 1000);
+		todos = [
+			...todos,
+			{
+				id: uuid(),
+				title: e.detail.title,
+				completed: false
+			}
+		];
+		todoList.clearInput();
 	};
 
 	const handleRemoveTodo = (e) => {
@@ -56,6 +54,8 @@
 	];
 </script>
 
-<TodoList bind:this={todoList} {todos} on:toggletodo={handleToggleTodo} on:removetodo={handleRemoveTodo} on:addtodo={handleAddTodo} />
+<div style:max-width="300px">
+	<TodoList bind:this={todoList} {todos} on:toggletodo={handleToggleTodo} on:removetodo={handleRemoveTodo} on:addtodo={handleAddTodo} />
+</div>
 
 <style></style>
