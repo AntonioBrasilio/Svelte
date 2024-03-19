@@ -4,9 +4,8 @@
 
 	export let todos = [];
 	export let inputValue = '';
-	let todoListDiv;
-	let autoscroll;
-
+	let todoListDiv, listDivScrollHeight, autoscroll, input;
+	let prevTodos = todos;
 	const dispatch = createEventDispatcher();
 
 	const handleAddToto = () => {
@@ -34,12 +33,9 @@
 		inputValue = '';
 	};
 
-	let input;
 	export const focusInput = () => {
 		input.focus();
 	};
-
-	let prevTodos = todos;
 
 	$: {
 		autoscroll = todos.length > prevTodos.length;
@@ -47,41 +43,130 @@
 	}
 
 	afterUpdate(() => {
-		if (autoscroll) todoListDiv.scrollTo(0, todoListDiv.scrollHeight);
+		if (autoscroll) todoListDiv.scrollTo(0, listDivScrollHeight);
 		autoscroll = false;
 	});
 </script>
 
 <div class="todo-list-wrapper">
 	<div bind:this={todoListDiv} class="todo-list">
-		<ul>
-			{#each todos as { id, title, completed } (id)}
-				<li>
-					<label>
-						<input
-							on:input={(event) => {
-								event.currentTarget.checked = completed;
-								handleToggleTodo(id, !completed);
-							}}
-							type="checkbox"
-							checked={completed}
-						/>
-						{title}
-					</label>
-					<button on:click={() => handleRemoveTodo(id)}>Remove</button>
-				</li>
-			{/each}
-		</ul>
+		<div bind:offsetHeight={listDivScrollHeight}>
+			{#if todos.length === 0}
+				<p class="no-items-text">No todos to display</p>
+			{:else}
+				<ul>
+					{#each todos as { id, title, completed } (id)}
+						<li class:completed>
+							<label>
+								<input
+									on:input={(event) => {
+										event.currentTarget.checked = completed;
+										handleToggleTodo(id, !completed);
+									}}
+									type="checkbox"
+									checked={completed}
+								/>
+								{title}
+							</label>
+							<button on:click={() => handleRemoveTodo(id)}>Remove</button>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		</div>
 	</div>
 </div>
 <form on:submit|preventDefault={handleAddToto} class="add-todo-form">
-	<input bind:this={input} bind:value={inputValue} />
+	<input placeholder="New todo" bind:this={input} bind:value={inputValue} />
 	<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
 </form>
 
-<style>
-	.todo-list {
-		max-height: 150px;
-		overflow: auto;
+<style lang="scss">
+	.todo-list-wrapper {
+		background-color: #424242;
+		border: 1px solid #4b4b4b;
+		.no-items-text {
+			margin: 0;
+			padding: 15px;
+			text-align: center;
+		}
+		.todo-list {
+			max-height: 200px;
+			overflow: auto;
+			ul {
+				margin: 0;
+				padding: 10px;
+				list-style: none;
+				li {
+					margin-bottom: 5px;
+					display: flex;
+					align-items: center;
+					background-color: #303030;
+					border-radius: 5px;
+					padding: 10px;
+					position: relative;
+					label {
+						cursor: pointer;
+						font-size: 18px;
+						display: flex;
+						align-items: baseline;
+						padding-right: 20px;
+						input[type='checkbox'] {
+							margin: 0 10px 0 0;
+							cursor: pointer;
+						}
+					}
+					.completed {
+						text-decoration: line-through;
+					}
+					&.completed > label {
+						opacity: 0.5;
+						text-decoration: line-through;
+					}
+					.remove-todo-button {
+						border: none;
+						background: none;
+						padding: 5px;
+						position: absolute;
+						right: 10px;
+						cursor: pointer;
+						display: none;
+						:global(svg) {
+							fill: #bd1414;
+						}
+					}
+					&:hover {
+						.remove-todo-button {
+							display: block;
+						}
+					}
+				}
+			}
+		}
+		.add-todo-form {
+			padding: 15px;
+			background-color: #303030;
+			display: flex;
+			flex-wrap: wrap;
+			border-top: 1px solid #4b4b4b;
+			// :global(.add-todo-button) {
+			//   background-color: aqua;
+			// }
+			input {
+				flex: 1;
+				background-color: #424242;
+				border: 1px solid #4b4b4b;
+				padding: 10px;
+				color: #fff;
+				border-radius: 5px;
+				margin-right: 10px;
+			}
+		}
+	}
+	.add-todo-form {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 10px;
+		height: 30px;
 	}
 </style>
