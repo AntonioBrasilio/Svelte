@@ -75,11 +75,11 @@
 			{/if}
 		</div>
 	</div>
+	<form on:submit|preventDefault={handleAddToto} class="add-todo-form">
+		<input placeholder="New todo" bind:this={input} bind:value={inputValue} />
+		<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
+	</form>
 </div>
-<form on:submit|preventDefault={handleAddToto} class="add-todo-form">
-	<input placeholder="New todo" bind:this={input} bind:value={inputValue} />
-	<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
-</form>
 
 <style lang="scss">
 	.todo-list-wrapper {
@@ -147,7 +147,6 @@
 			padding: 15px;
 			background-color: #303030;
 			display: flex;
-			flex-wrap: wrap;
 			border-top: 1px solid #4b4b4b;
 			// :global(.add-todo-button) {
 			//   background-color: aqua;
@@ -162,11 +161,5 @@
 				margin-right: 10px;
 			}
 		}
-	}
-	.add-todo-form {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 10px;
-		height: 30px;
 	}
 </style>
