@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
 
@@ -10,6 +10,7 @@
 	let todos = null;
 	let error = null;
 	let isLoading = false;
+	let isAdding = false;
 
 	const loadTodos = async () => {
 		isLoading = true;
@@ -27,17 +28,30 @@
 		loadTodos();
 	});
 
-	const handleAddTodo = (e) => {
+	const handleAddTodo = async (e) => {
 		e.preventDefault();
-		todos = [
-			...todos,
-			{
-				id: uuid(),
+		isAdding = true;
+		await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10', {
+			method: 'POST',
+			body: JSON.stringify({
 				title: e.detail.title,
 				completed: false
+			}),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8'
 			}
-		];
-		todoList.clearInput();
+		}).then(async (response) => {
+			if (response.ok) {
+				const todo = await response.json();
+				todos = [...todos, { ...todo, id: uuid() }];
+				todoList.clearInput();
+			} else {
+				alert('Failed to add todo');
+			}
+		});
+		isAdding = false;
+		await tick();
+		todoList.focusInput();
 	};
 
 	const handleRemoveTodo = (e) => {
@@ -63,6 +77,7 @@
 		{error}
 		{isLoading}
 		{todos}
+		disabled={isAdding}
 		on:toggletodo={handleToggleTodo}
 		on:removetodo={handleRemoveTodo}
 		on:addtodo={handleAddTodo}

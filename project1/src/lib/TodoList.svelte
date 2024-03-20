@@ -6,6 +6,7 @@
 	export let inputValue = '';
 	export let error = null;
 	export let isLoading = false;
+	export let disabled = false;
 
 	let todoListDiv, listDivScrollHeight, autoscroll, input;
 	let prevTodos = todos;
@@ -85,8 +86,8 @@
 		</div>
 	{/if}
 	<form on:submit|preventDefault={handleAddToto} class="add-todo-form">
-		<input placeholder="New todo" bind:this={input} bind:value={inputValue} />
-		<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
+		<input {disabled} placeholder="New todo" bind:this={input} bind:value={inputValue} />
+		<Button {disabled} type="submit" size="small" bgColor="cadetblue">Add</Button>
 	</form>
 </div>
 

@@ -4,12 +4,14 @@
 	export let bgColor = 'inherit';
 	export let textColor = 'inherit';
 	export let isMouseHover = false;
+	export let disabled = false;
 
-	console.log($$slots);
+	console.log($$props);
 </script>
 
 <button
 	{...$$restProps}
+	{...$$props}
 	on:click
 	on:mouseenter={() => (isMouseHover = true)}
 	on:mouseleave={() => (isMouseHover = false)}
