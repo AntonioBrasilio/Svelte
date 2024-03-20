@@ -2,8 +2,11 @@
 	import Button from './Button.svelte';
 	import { createEventDispatcher, afterUpdate } from 'svelte';
 
-	export let todos = [];
+	export let todos = null;
 	export let inputValue = '';
+	export let error = null;
+	export let isLoading = false;
+
 	let todoListDiv, listDivScrollHeight, autoscroll, input;
 	let prevTodos = todos;
 	const dispatch = createEventDispatcher();
@@ -38,7 +41,7 @@
 	};
 
 	$: {
-		autoscroll = todos.length > prevTodos.length;
+		autoscroll = todos && prevTodos && todos.length > prevTodos.length;
 		prevTodos = todos;
 	}
 
@@ -49,32 +52,38 @@
 </script>
 
 <div class="todo-list-wrapper">
-	<div bind:this={todoListDiv} class="todo-list">
-		<div bind:offsetHeight={listDivScrollHeight}>
-			{#if todos.length === 0}
-				<p class="no-items-text">No todos to display</p>
-			{:else}
-				<ul>
-					{#each todos as { id, title, completed } (id)}
-						<li class:completed>
-							<label>
-								<input
-									on:input={(event) => {
-										event.currentTarget.checked = completed;
-										handleToggleTodo(id, !completed);
-									}}
-									type="checkbox"
-									checked={completed}
-								/>
-								{title}
-							</label>
-							<button on:click={() => handleRemoveTodo(id)}>Remove</button>
-						</li>
-					{/each}
-				</ul>
-			{/if}
+	{#if isLoading}
+		<p class="display-text">Loading...</p>
+	{:else if error}
+		<p class="display-text">{error}</p>
+	{:else if todos}
+		<div bind:this={todoListDiv} class="todo-list">
+			<div bind:offsetHeight={listDivScrollHeight}>
+				{#if todos.length === 0}
+					<p class="display-text">No todos to display</p>
+				{:else}
+					<ul>
+						{#each todos as { id, title, completed } (id)}
+							<li class:completed>
+								<label>
+									<input
+										on:input={(event) => {
+											event.currentTarget.checked = completed;
+											handleToggleTodo(id, !completed);
+										}}
+										type="checkbox"
+										checked={completed}
+									/>
+									{title}
+								</label>
+								<button on:click={() => handleRemoveTodo(id)}>Remove</button>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 	<form on:submit|preventDefault={handleAddToto} class="add-todo-form">
 		<input placeholder="New todo" bind:this={input} bind:value={inputValue} />
 		<Button type="submit" size="small" bgColor="cadetblue">Add</Button>
@@ -85,7 +94,7 @@
 	.todo-list-wrapper {
 		background-color: #424242;
 		border: 1px solid #4b4b4b;
-		.no-items-text {
+		.display-text {
 			margin: 0;
 			padding: 15px;
 			text-align: center;
