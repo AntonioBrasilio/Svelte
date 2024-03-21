@@ -7,6 +7,7 @@
 	export let error = null;
 	export let isLoading = false;
 	export let disabled = false;
+	export let disabledItems = [];
 
 	let todoListDiv, listDivScrollHeight, autoscroll, input;
 	let prevTodos = todos;
@@ -68,6 +69,7 @@
 							<li class:completed>
 								<label>
 									<input
+										disabled={disabledItems.includes(id)}
 										on:input={(event) => {
 											event.currentTarget.checked = completed;
 											handleToggleTodo(id, !completed);
@@ -77,7 +79,7 @@
 									/>
 									{title}
 								</label>
-								<button on:click={() => handleRemoveTodo(id)}>Remove</button>
+								<button disabled={disabledItems.includes(id)} on:click={() => handleRemoveTodo(id)}>Remove</button>
 							</li>
 						{/each}
 					</ul>
