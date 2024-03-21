@@ -70,7 +70,7 @@
 							{@const { id, title, completed } = todo}
 							<li>
 								<slot>
-									<div transition:scale={{ start: 0.5 }} class:completed>
+									<div transition:scale|local={{ start: 0.5 }} class:completed>
 										<label>
 											<input
 												disabled={disabledItems.includes(id)}
