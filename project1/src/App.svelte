@@ -4,7 +4,7 @@
 	import { onMount, tick } from 'svelte';
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	let todoList;
 
@@ -46,7 +46,7 @@
 		}).then(async (response) => {
 			if (response.ok) {
 				const todo = await response.json();
-				todos = [...todos, { ...todo, id: uuid() }];
+				todos = [{ ...todo, id: uuid() }, ...todos];
 				todoList.clearInput();
 			} else {
 				alert('Failed to add todo');
@@ -116,6 +116,7 @@
 			{todos}
 			{disabledItems}
 			disabled={isAdding}
+			scrollOnAdd="top"
 			on:toggletodo={handleToggleTodo}
 			on:removetodo={handleRemoveTodo}
 			on:addtodo={handleAddTodo}
@@ -123,6 +124,14 @@
 			<span let:todo let:index slot="title">{index} - {todo.title}</span>
 		</TodoList>
 	</div>
+	{#if todos}
+		<p>
+			Number of Todos:
+			{#key todos.length}
+				<span style="display:inline-block" in:fly|local={{ y: -10 }}>{todos.length}</span>
+			{/key}
+		</p>
+	{/if}
 {/if}
 
 <style></style>

@@ -2,6 +2,7 @@
 	import { scale } from 'svelte/transition';
 	import Button from './Button.svelte';
 	import { createEventDispatcher, afterUpdate } from 'svelte';
+	import { flip } from 'svelte/animate';
 
 	export let todos = null;
 	export let inputValue = '';
@@ -9,6 +10,7 @@
 	export let isLoading = false;
 	export let disabled = false;
 	export let disabledItems = [];
+	export let scrollOnAdd = undefined;
 
 	let todoListDiv, listDivScrollHeight, autoscroll, input;
 	let prevTodos = todos;
@@ -27,6 +29,7 @@
 			inputValue = '';
 		}
 	};
+
 	const handleRemoveTodo = (id) => {
 		dispatch('removetodo', { id });
 	};
@@ -49,8 +52,16 @@
 	}
 
 	afterUpdate(() => {
-		if (autoscroll) todoListDiv.scrollTo(0, listDivScrollHeight);
-		autoscroll = false;
+		if (scrollOnAdd) {
+			let pos;
+			if (scrollOnAdd === 'top') {
+				pos = 0;
+			} else if (scrollOnAdd === 'bottom') {
+				pos = todoListDiv.scrollHeight;
+			}
+			if (autoscroll) todoListDiv.scrollTo(0, pos);
+			autoscroll = false;
+		}
 	});
 </script>
 
@@ -68,7 +79,7 @@
 					<ul>
 						{#each todos as todo, index (todo.id)}
 							{@const { id, title, completed } = todo}
-							<li>
+							<li animate:flip>
 								<slot>
 									<div transition:scale|local={{ start: 0.5 }} class:completed>
 										<label>
