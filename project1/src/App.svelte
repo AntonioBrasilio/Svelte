@@ -110,7 +110,7 @@
 	{showList ? 'Show' : 'Hide'} list
 </label>
 {#if showList}
-	<div transition:fade style:max-width="300px">
+	<div transition:fade style:max-width="800px">
 		<TodoList
 			bind:this={todoList}
 			{error}

@@ -12,6 +12,9 @@
 	export let disabledItems = [];
 	export let scrollOnAdd = undefined;
 
+	$: done = todos ? todos.filter((todo) => todo.completed) : [];
+	$: todo = todos ? todos.filter((todo) => !todo.completed) : [];
+
 	let todoListDiv, listDivScrollHeight, autoscroll, input;
 	let prevTodos = todos;
 	const dispatch = createEventDispatcher();
@@ -76,30 +79,39 @@
 				{#if todos.length === 0}
 					<p class="display-text">No todos to display</p>
 				{:else}
-					<ul>
-						{#each todos as todo, index (todo.id)}
-							{@const { id, title, completed } = todo}
-							<li animate:flip>
-								<slot>
-									<div transition:scale|local={{ start: 0.5 }} class:completed>
-										<label>
-											<input
-												disabled={disabledItems.includes(id)}
-												on:input={(event) => {
-													event.currentTarget.checked = completed;
-													handleToggleTodo(id, !completed);
-												}}
-												type="checkbox"
-												checked={completed}
-											/>
-											<slot {todo} {index} name="title">{title}</slot>
-										</label>
-										<button disabled={disabledItems.includes(id)} on:click={() => handleRemoveTodo(id)}>Remove</button>
-									</div>
-								</slot>
-							</li>
+					<div style:display="flex">
+						{#each [todo, done] as list, index}
+							<div class="list-wrapper">
+								<h2>{index === 0 ? 'Todo' : 'Done'}</h2>
+								<ul>
+									{#each list as todo, index (todo.id)}
+										{@const { id, title, completed } = todo}
+										<li animate:flip>
+											<slot>
+												<div transition:scale|local={{ start: 0.5 }} class:completed>
+													<label>
+														<input
+															disabled={disabledItems.includes(id)}
+															on:input={(event) => {
+																event.currentTarget.checked = completed;
+																handleToggleTodo(id, !completed);
+															}}
+															type="checkbox"
+															checked={completed}
+														/>
+														<slot {todo} {index} name="title">{title}</slot>
+													</label>
+													<button disabled={disabledItems.includes(id)} on:click={() => handleRemoveTodo(id)}
+														>Remove</button
+													>
+												</div>
+											</slot>
+										</li>
+									{/each}
+								</ul>
+							</div>
 						{/each}
-					</ul>
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -120,11 +132,18 @@
 			text-align: center;
 		}
 		.todo-list {
-			max-height: 200px;
+			max-height: 400px;
 			overflow: auto;
+			.list-wrapper {
+				padding: 10px;
+				flex: 1;
+				h2 {
+					margin: 0 0 10px;
+				}
+			}
 			ul {
 				margin: 0;
-				padding: 10px;
+				padding: 0px;
 				list-style: none;
 				li > div {
 					margin-bottom: 5px;
@@ -134,6 +153,7 @@
 					border-radius: 5px;
 					padding: 10px;
 					position: relative;
+					justify-content: space-between;
 					label {
 						cursor: pointer;
 						font-size: 18px;
