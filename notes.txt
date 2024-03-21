@@ -5,3 +5,6 @@ Svelte
 SvelteKit
     * SvelteKit is a framework who can build extremely high-performance apps
     * He is to Svelte what Next.js is for React and Nuxt.js is for Vue
+
+
+Svelte transitions documentation - https://svelte.dev/docs/svelte-transition
