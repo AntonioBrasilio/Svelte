@@ -113,7 +113,9 @@
 		on:toggletodo={handleToggleTodo}
 		on:removetodo={handleRemoveTodo}
 		on:addtodo={handleAddTodo}
-	/>
+	>
+		<span let:todo let:index slot="title">{index} - {todo.title}</span>
+	</TodoList>
 </div>
 
 <style></style>

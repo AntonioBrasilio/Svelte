@@ -65,21 +65,26 @@
 					<p class="display-text">No todos to display</p>
 				{:else}
 					<ul>
-						{#each todos as { id, title, completed } (id)}
-							<li class:completed>
-								<label>
-									<input
-										disabled={disabledItems.includes(id)}
-										on:input={(event) => {
-											event.currentTarget.checked = completed;
-											handleToggleTodo(id, !completed);
-										}}
-										type="checkbox"
-										checked={completed}
-									/>
-									{title}
-								</label>
-								<button disabled={disabledItems.includes(id)} on:click={() => handleRemoveTodo(id)}>Remove</button>
+						{#each todos as todo, index (todo.id)}
+							{@const { id, title, completed } = todo}
+							<li>
+								<slot>
+									<div class:completed>
+										<label>
+											<input
+												disabled={disabledItems.includes(id)}
+												on:input={(event) => {
+													event.currentTarget.checked = completed;
+													handleToggleTodo(id, !completed);
+												}}
+												type="checkbox"
+												checked={completed}
+											/>
+											<slot {todo} {index} name="title">{title}</slot>
+										</label>
+										<button disabled={disabledItems.includes(id)} on:click={() => handleRemoveTodo(id)}>Remove</button>
+									</div>
+								</slot>
 							</li>
 						{/each}
 					</ul>
@@ -109,7 +114,7 @@
 				margin: 0;
 				padding: 10px;
 				list-style: none;
-				li {
+				li > div {
 					margin-bottom: 5px;
 					display: flex;
 					align-items: center;
