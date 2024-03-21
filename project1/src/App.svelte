@@ -6,6 +6,7 @@
 	import { v4 as uuid } from 'uuid';
 	import { fade, fly } from 'svelte/transition';
 	import { spin } from './lib/transitions/spin';
+	import { customFade } from './lib/transitions/customFade';
 
 	let todoList;
 
@@ -109,7 +110,7 @@
 	{showList ? 'Show' : 'Hide'} list
 </label>
 {#if showList}
-	<div transition:spin style:max-width="300px">
+	<div transition:fade style:max-width="300px">
 		<TodoList
 			bind:this={todoList}
 			{error}
