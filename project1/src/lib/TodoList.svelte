@@ -1,5 +1,5 @@
 <script>
-	import { scale } from 'svelte/transition';
+	import { crossfade, scale } from 'svelte/transition';
 	import Button from './Button.svelte';
 	import { createEventDispatcher, afterUpdate } from 'svelte';
 	import { flip } from 'svelte/animate';
@@ -11,6 +11,13 @@
 	export let disabled = false;
 	export let disabledItems = [];
 	export let scrollOnAdd = undefined;
+
+	const [receive, send] = crossfade({
+		duration: 400,
+		fallback(node) {
+			return scale(node, { start: 0.5, duration: 400 });
+		}
+	});
 
 	$: done = todos ? todos.filter((todo) => todo.completed) : [];
 	$: todo = todos ? todos.filter((todo) => !todo.completed) : [];
@@ -88,7 +95,7 @@
 										{@const { id, title, completed } = todo}
 										<li animate:flip>
 											<slot>
-												<div transition:scale|local={{ start: 0.5 }} class:completed>
+												<div in:receive|local={{ key: id }} out:send|local={{ key: id }} class:completed>
 													<label>
 														<input
 															disabled={disabledItems.includes(id)}
