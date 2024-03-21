@@ -1,4 +1,5 @@
 <script>
+	import { scale } from 'svelte/transition';
 	import Button from './Button.svelte';
 	import { createEventDispatcher, afterUpdate } from 'svelte';
 
@@ -69,7 +70,7 @@
 							{@const { id, title, completed } = todo}
 							<li>
 								<slot>
-									<div class:completed>
+									<div transition:scale={{ start: 0.5 }} class:completed>
 										<label>
 											<input
 												disabled={disabledItems.includes(id)}

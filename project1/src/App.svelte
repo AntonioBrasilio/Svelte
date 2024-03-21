@@ -4,6 +4,7 @@
 	import { onMount, tick } from 'svelte';
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
+	import { fade } from 'svelte/transition';
 
 	let todoList;
 
@@ -11,6 +12,7 @@
 	let error = null;
 	let isLoading = false;
 	let isAdding = false;
+	let showList = true;
 	let disabledItems = [];
 
 	const loadTodos = async () => {
@@ -102,20 +104,26 @@
 	};
 </script>
 
-<div style:max-width="300px">
-	<TodoList
-		bind:this={todoList}
-		{error}
-		{isLoading}
-		{todos}
-		{disabledItems}
-		disabled={isAdding}
-		on:toggletodo={handleToggleTodo}
-		on:removetodo={handleRemoveTodo}
-		on:addtodo={handleAddTodo}
-	>
-		<span let:todo let:index slot="title">{index} - {todo.title}</span>
-	</TodoList>
-</div>
+<label class="show-hide-button">
+	<input type="checkbox" bind:checked={showList} />
+	{showList ? 'Show' : 'Hide'} list
+</label>
+{#if showList}
+	<div transition:fade style:max-width="300px">
+		<TodoList
+			bind:this={todoList}
+			{error}
+			{isLoading}
+			{todos}
+			{disabledItems}
+			disabled={isAdding}
+			on:toggletodo={handleToggleTodo}
+			on:removetodo={handleRemoveTodo}
+			on:addtodo={handleAddTodo}
+		>
+			<span let:todo let:index slot="title">{index} - {todo.title}</span>
+		</TodoList>
+	</div>
+{/if}
 
 <style></style>
