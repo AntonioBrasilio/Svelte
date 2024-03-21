@@ -89,10 +89,9 @@
 		}).then(async (response) => {
 			if (response.ok) {
 				const updatedTodo = await response.json();
-				console.log(updatedTodo, 'updatedTodo');
 				todos = todos.map((todo) => {
 					if (todo.id === id) {
-						return updatedTodo;
+						return { ...todo, completed: updatedTodo };
 					}
 					return { ...todo };
 				});
