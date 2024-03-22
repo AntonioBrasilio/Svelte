@@ -1,6 +1,7 @@
 <script>
 	import Home from './lib/pages/Home.svelte';
 	import Settings from './lib/pages/Settings.svelte';
+	import { settings } from './lib/stores/settings';
 
 	let page;
 
@@ -13,6 +14,23 @@
 		}
 	}
 </script>
+
+<svelte:head>
+	{#if $settings.theme === 'dark'}
+		<style>
+			:root {
+				--backgroundColor: #1d1d1d;
+				--textColor: #fff;
+			}
+		</style>
+	{:else}
+		<style>
+			:root {
+				--backgroundColor: #ccc;
+				--textColor: #1d1d1d;
+			}
+		</style>{/if}
+</svelte:head>
 
 <svelte:window on:hashchange={onHashChange} on:load={onHashChange} />
 
