@@ -7,6 +7,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { spin } from './lib/transitions/spin';
 	import { customFade } from './lib/transitions/customFade';
+	import { longpress } from './lib/actions/longpress';
 
 	let todoList;
 
@@ -91,12 +92,14 @@
 		}).then(async (response) => {
 			if (response.ok) {
 				const updatedTodo = await response.json();
+				console.log(updatedTodo);
 				todos = todos.map((todo) => {
 					if (todo.id === id) {
-						return { ...todo, completed: updatedTodo };
+						return { ...todo, completed: updatedTodo.completed };
 					}
 					return { ...todo };
 				});
+				console.log(todos);
 			} else {
 				alert('Failed to update todo');
 			}
@@ -135,5 +138,12 @@
 		</p>
 	{/if}
 {/if}
+
+<button
+	on:longpress={() => {
+		alert('Pressed');
+	}}
+	use:longpress={{ duration: 3000 }}>Teste</button
+>
 
 <style></style>
