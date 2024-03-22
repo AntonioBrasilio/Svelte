@@ -5,12 +5,9 @@
 	import TodoList from './lib/TodoList.svelte';
 	import { v4 as uuid } from 'uuid';
 	import { fade, fly } from 'svelte/transition';
-	import { spin } from './lib/transitions/spin';
-	import { customFade } from './lib/transitions/customFade';
-	import { longpress } from './lib/actions/longpress';
+	import { tippyAction } from './lib/actions/tippy';
 
 	let todoList;
-
 	let todos = null;
 	let error = null;
 	let isLoading = false;
@@ -108,7 +105,7 @@
 	};
 </script>
 
-<label class="show-hide-button">
+<label use:tippyAction={{ content: `${showList ? 'Show' : 'Hide'} list` }} class="show-hide-button">
 	<input type="checkbox" bind:checked={showList} />
 	{showList ? 'Show' : 'Hide'} list
 </label>
@@ -138,12 +135,5 @@
 		</p>
 	{/if}
 {/if}
-
-<button
-	on:longpress={() => {
-		alert('Pressed');
-	}}
-	use:longpress={{ duration: 3000 }}>Teste</button
->
 
 <style></style>
