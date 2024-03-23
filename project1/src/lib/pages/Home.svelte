@@ -1,5 +1,4 @@
 <script>
-	import { settings } from '../stores/settings.js';
 	import { location } from '../stores/location.js';
 </script>
 
