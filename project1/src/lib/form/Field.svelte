@@ -10,12 +10,29 @@
 	export let validate = undefined;
 	export let type = undefined;
 
-	const { values, errors } = getContext(FORM_KEY);
+	const formStore = getContext(FORM_KEY);
 </script>
 
 <div class="field">
 	<label for={id}>{label}</label>
-	<input {id} {name} {type} value={values[name] || ''} />
+	<input
+		on:input={(e) => {
+			const value = e.currentTarget.value;
+			formStore.update((state) => {
+				return {
+					...state,
+					values: {
+						...state.values,
+						[name]: value
+					}
+				};
+			});
+		}}
+		{id}
+		{name}
+		{type}
+		value={$formStore.values[name] || ''}
+	/>
 </div>
 
 <style>

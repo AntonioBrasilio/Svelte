@@ -18,7 +18,12 @@
 	<p>{Object($location).error.message}</p>
 {/if}
 
-<Form {initialValues}>
+<Form
+	on:submit={(e) => {
+		console.log(e.detail);
+	}}
+	{initialValues}
+>
 	<Field label="Username" name="username" type="text" validate={() => {}} />
 	<Field label="Email" name="email" type="email" validate={() => {}} />
 	<Field label="Password" name="password" type="password" validate={() => {}} />
