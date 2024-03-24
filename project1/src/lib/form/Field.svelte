@@ -1,5 +1,7 @@
 <script>
 	import { v4 as uuid } from 'uuid';
+	import { getContext } from 'svelte';
+	import { FORM_KEY } from './form-key.js';
 
 	const id = uuid();
 
@@ -7,11 +9,13 @@
 	export let label = '';
 	export let validate = undefined;
 	export let type = undefined;
+
+	const { values, errors } = getContext(FORM_KEY);
 </script>
 
 <div class="field">
 	<label for={id}>{label}</label>
-	<input {id} {name} {type} />
+	<input {id} {name} {type} value={values[name] || ''} />
 </div>
 
 <style>

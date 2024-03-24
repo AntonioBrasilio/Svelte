@@ -1,8 +1,12 @@
 <script>
 	import { location } from '../stores/location.js';
-	import { settingsStore } from '../stores/settings.js';
 	import { Field, Form } from '../form';
 	import Button from '../Button.svelte';
+
+	let initialValues = {
+		username: 'Test',
+		email: 'teste@teste.com'
+	};
 </script>
 
 <h2>Home</h2>
@@ -14,9 +18,9 @@
 	<p>{Object($location).error.message}</p>
 {/if}
 
-<Form>
+<Form {initialValues}>
 	<Field label="Username" name="username" type="text" validate={() => {}} />
-	<Field label="Email" name="email" type="text" validate={() => {}} />
-	<Field label="Password" name="password" type="text" validate={() => {}} />
+	<Field label="Email" name="email" type="email" validate={() => {}} />
+	<Field label="Password" name="password" type="password" validate={() => {}} />
 	<Button type="submit" bgColor="red">Submit</Button>
 </Form>
