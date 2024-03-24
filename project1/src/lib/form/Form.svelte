@@ -20,6 +20,9 @@
 </pre>
 <form
 	on:submit|preventDefault={() => {
+		if (Object.keys($form.errors).length > 0) {
+			return;
+		}
 		dispatch('submit', $form.values);
 	}}
 >

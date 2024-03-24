@@ -2,6 +2,7 @@
 	import { location } from '../stores/location.js';
 	import { Field, Form } from '../form';
 	import Button from '../Button.svelte';
+	import { validateRequiredField } from '../utils/validation.js';
 
 	let initialValues = {
 		username: 'Test',
@@ -24,8 +25,8 @@
 	}}
 	{initialValues}
 >
-	<Field label="Username" name="username" type="text" validate={() => {}} />
-	<Field label="Email" name="email" type="email" validate={() => {}} />
-	<Field label="Password" name="password" type="password" validate={() => {}} />
+	<Field label="Username" name="username" type="text" validate={validateRequiredField} />
+	<Field label="Email" name="email" type="email" validate={validateRequiredField} />
+	<Field label="Password" name="password" type="password" validate={validateRequiredField} />
 	<Button type="submit" bgColor="red">Submit</Button>
 </Form>
